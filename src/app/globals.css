@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/* 
+ * Art of Frames — global styles.
+ */
+
+@source "../**/*.{tsx,ts,jsx,js}";
+@source "!../.freebuff/**";
+
+@theme inline {
+  --color-bordeaux: #5A1020;
+  --color-ash-rosewood: #685558;
+  --color-powdered-mauve: #CCA681;
+  --color-deep-teal: #085E55;
+  --color-emerald-surge: #0E8C7B;
+  --color-background: #030712;
+  --color-foreground: #F9FAFB;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0F172A;
+}
+::-webkit-scrollbar-thumb {
+  background: #5A1020;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #685558;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Keyboard focus — visible ring on interactive elements.
+   Inputs/selects/textarea are excluded: they already have a
+   custom focus ring (border + shadow). */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #cca681;
+  outline-offset: 2px;
+}
+
+/* Card hover shimmer — the sweep used by the Expertise cards,
+   shared by cards across all sections. Cards need position:
+   relative and overflow: hidden. */
+.card-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 55%;
+  transform: translateX(-100%) skewX(-12deg);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: transform 0.7s ease-out;
+  pointer-events: none;
+}
+
+.card-shimmer:hover::after {
+  transform: translateX(280%) skewX(-12deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-shimmer::after {
+    transition: none;
+  }
+}
+
+/* Thin dark scrollbar for the sticky category sidebars that scroll
+   internally once they meet the navbar. */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(204, 166, 129, 0.45);
+}
+
+/* Skeleton loading — shimmer placeholders for the route-level
+   loading.tsx files (shop + gallery) that stream in while page
+   data resolves. Add .skeleton to any block that should shimmer
+   while loading; callers own the radius/height via utilities. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.09),
+    transparent
+  );
+  animation: skeleton-sweep 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
+
+
+/* Button shine — a light sweep that crosses buttons on hover
+   (used on the shop's Quick Add / Add to Cart buttons). */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  transform: translateX(-150%) skewX(-20deg);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
+.btn-shine:hover::before {
+  transform: translateX(420%) skewX(-20deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-shine::before {
+    transition: none;
+  }
+
+  /* No hover lift on shop cards when reduced motion is preferred */
+  .shop-card:hover,
+  .shop-feature:hover {
+    transform: none !important;
+  }
+}
+
+
+/* Chat typing indicator — three bouncing dots */
+@keyframes typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing-dot {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* Marquee — infinite horizontal scroll for the reviews strip */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 42s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .marquee-track.reverse {
+    animation: none;
+  }
+}

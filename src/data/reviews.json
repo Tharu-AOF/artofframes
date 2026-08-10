@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Ayesha",
+    "photo": "/reviews/ayesha.png",
+    "review": "Top-notch craftsmanship. This sign board really makes our business front stand out!"
+  },
+  {
+    "name": "Roshan",
+    "photo": "/reviews/roshan.jpeg",
+    "review": "Our branded keytags are the perfect gift for our customers. Quality is exceptional, delivered fast, and the team was super helpful throughout."
+  },
+  {
+    "name": "Praveen",
+    "photo": "/reviews/praveen.jpeg",
+    "review": "The ultimate personalized gift! The laser detailing is gorgeous and totally unique."
+  },
+  {
+    "name": "Shalika",
+    "photo": "/reviews/shalika.jpeg",
+    "review": "Stunning quality! The plymount finish looks incredibly professional and clean on my wall."
+  },
+  {
+    "name": "Mr. Weerasinghe",
+    "photo": "/reviews/weera.jpeg",
+    "review": "Beautiful design and precision cuts. It completely transformed the vibe of our room."
+  }
+]
