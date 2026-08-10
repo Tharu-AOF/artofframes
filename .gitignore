@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local freebuff data (databases, session state)
 .freebuff/
+
+# Local Netlify folder
+.netlify
