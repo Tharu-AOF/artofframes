@@ -1,0 +1,9 @@
+# Netlify build configuration for the Art of Frames Next.js app.
+# Forces the official Next.js runtime so SSR, API routes, middleware,
+# and image optimization are served by Netlify Functions/Edge.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
