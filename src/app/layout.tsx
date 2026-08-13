@@ -13,6 +13,8 @@ import ChatWidget from "@/components/chat/ChatWidget";
 //   Headings : Montserrat      (--font-display)
 //   Body     : Lato            (--font-sans)
 //   Accent   : Great Vibes     (--font-accent, script, sparingly)
+//   Sinhala  : Noto Sans Sinhala (--font-sinhala, self-hosted
+//              Sinhala-only subset — see globals.css @font-face)
 // ============================================================
 
 // Weights trimmed to the ones actually used (400–700) — fewer

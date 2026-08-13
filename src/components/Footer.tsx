@@ -85,6 +85,7 @@ const quickLinks = [
   { name: "Services", href: "#services" },
   { name: "Sign Boards", href: "/services/sign-boards" },
   { name: "Shop", href: "/shop" },
+  { name: "Partners", href: "/partner-program" },
   { name: "Gallery", href: "#gallery" },
   { name: "Track Order", href: "/track-order" },
   { name: "Contact", href: "#contact" },

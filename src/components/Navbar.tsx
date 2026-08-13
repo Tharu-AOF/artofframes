@@ -115,8 +115,8 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
       ],
     },
     { name: "Shop", href: "/shop", id: "shop" },
-    { name: "Gallery", href: "/gallery", id: "gallery" },
-    { name: "Contact", href: "#contact", id: "contact" },
+    { name: "Partners", href: "/partner-program", id: "partner-program" },
+    { name: "Gallery", href: "/gallery", id: "gallery" },    { name: "Contact", href: "#contact", id: "contact" },
   ];
 
   // Active styling for a sub-nav child — path-based for real pages,

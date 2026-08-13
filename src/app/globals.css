@@ -17,6 +17,28 @@
   --color-foreground: #F9FAFB;
 }
 
+/* Sinhala script — self-hosted Sinhala-only subset of Noto Sans
+   Sinhala (variable, weight range 400–700). The @font-face is
+   declared with a strict unicode-range covering the Sinhala block
+   only, so Latin characters NEVER match this face: when a Sinhala
+   page uses the stack "var(--font-sinhala), var(--font-display)"
+   or "…, var(--font-sans)", Sinhala glyphs render in Noto Sans
+   Sinhala while every Latin word falls through to the global
+   fonts (Montserrat headings / Lato body). */
+@font-face {
+  font-family: "Noto Sans Sinhala";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sinhala.woff2") format("woff2");
+  unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D,
+    U+25CC, U+111E1-111F4;
+}
+
+:root {
+  --font-sinhala: "Noto Sans Sinhala";
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);
