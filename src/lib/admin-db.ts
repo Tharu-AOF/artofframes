@@ -832,9 +832,13 @@ export async function saveSignboardSettings(s: SignboardSettings): Promise<void>
 
 // ── Image upload (service-role route) ───────────────────────
 
+import { compressImage } from "@/lib/image-compress";
+
 export async function uploadImage(file: File): Promise<string> {
+  // Compress raw camera/phone photos to crisp, lightweight WebP (< 250KB)
+  const optimizedFile = await compressImage(file);
   const fd = new FormData();
-  fd.append("file", file);
+  fd.append("file", optimizedFile);
   const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
   const body = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
   if (!res.ok || !body.url) {

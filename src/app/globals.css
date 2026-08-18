@@ -260,3 +260,15 @@ button:focus-visible,
     animation: none;
   }
 }
+
+/* Hardware accelerated layers for smooth mobile rendering */
+.gpu-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimized image rendering */
+img {
+  content-visibility: auto;
+}
+

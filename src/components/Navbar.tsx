@@ -106,7 +106,6 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
       href: "#services",
       id: "services",
       children: [
-        { name: "All Services", href: "#services", id: "services-all" },
         {
           name: "Sign Boards",
           href: "/services/sign-boards",
@@ -115,8 +114,9 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
       ],
     },
     { name: "Shop", href: "/shop", id: "shop" },
-    { name: "Partners", href: "/partner-program", id: "partner-program" },
-    { name: "Gallery", href: "/gallery", id: "gallery" },    { name: "Contact", href: "#contact", id: "contact" },
+    { name: "Gallery", href: "/gallery", id: "gallery" },
+    { name: "Contact", href: "#contact", id: "contact" },
+    { name: "Earn", href: "/partner-program", id: "partner-program" },
   ];
 
   // Active styling for a sub-nav child — path-based for real pages,
@@ -304,14 +304,14 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
 
           {/* Right Icons — Track + Cart */}
           <div className="flex items-center gap-3">
-            {/* Track Order — icon + label, sits before the cart */}
+            {/* Track Order — icon + label, sits before the cart on desktop */}
             <motion.a
               href="/track-order"
               onClick={() => setActiveLink("track-order")}
               aria-label="Track order"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center gap-2 h-11 px-3 rounded-full transition-all ${
+              className={`hidden lg:flex items-center gap-2 h-11 px-3 rounded-full transition-all ${
                 activeLink === "track-order"
                   ? "bg-[#CCA681]/10 text-[#CCA681] ring-1 ring-[#CCA681]/40"
                   : "text-white hover:bg-white/10"
@@ -427,10 +427,10 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
                     return (
                       <div key={link.id}>
                         <motion.div
-                          initial={{ opacity: 0, x: -20 }}
+                          initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="flex items-center justify-between border-b border-white/5"
+                          className="flex items-center justify-between flex-row-reverse border-b border-white/5"
                         >
                           <motion.a
                             href={resolveHref(link.href ?? "#")}
@@ -438,7 +438,7 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
                               setActiveLink(link.id);
                               setMobileMenuOpen(false);
                             }}
-                            className={`py-2 transition-colors ${
+                            className={`py-2 text-right transition-colors ${
                               isActive ? "text-[#CCA681]" : "text-gray-400"
                             }`}
                             style={linkStyle}
@@ -468,7 +468,7 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
                               exit={{ opacity: 0, height: 0 }}
                               className="overflow-hidden"
                             >
-                              <div className="ml-1 flex flex-col gap-1 border-l border-white/10 py-2 pl-4">
+                              <div className="mr-1 flex flex-col gap-1 border-r border-white/10 py-2 pr-4 text-right">
                                 {link.children.map((child) => {
                                   const childActive = isChildActive(
                                     child,
@@ -482,7 +482,7 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
                                         setActiveLink(link.id);
                                         setMobileMenuOpen(false);
                                       }}
-                                      className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                                      className={`rounded-lg px-3 py-1.5 text-sm text-right transition-colors ${
                                         childActive
                                           ? "bg-[#CCA681]/10 text-[#CCA681]"
                                           : "text-gray-500 hover:bg-white/5 hover:text-white"
@@ -508,21 +508,51 @@ const Navbar = ({ activeOverride }: { activeOverride?: string }) => {
                     <motion.a
                       key={link.id}
                       href={resolveHref(link.href ?? "#")}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       onClick={() => {
                         setActiveLink(link.id);
                         setMobileMenuOpen(false);
                       }}
-                      className={`py-2 border-b border-white/5 transition-colors ${isActive ? "text-[#CCA681]" : "text-gray-400"
-                        }`}
+                      className={`py-2 text-right border-b border-white/5 transition-colors ${
+                        isActive ? "text-[#CCA681]" : "text-gray-400"
+                      }`}
                       style={linkStyle}
                     >
                       {link.name}
                     </motion.a>
                   );
                 })}
+
+                {/* Track Order item inside mobile hamburger drawer */}
+                <motion.a
+                  href="/track-order"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.08 }}
+                  onClick={() => {
+                    setActiveLink("track-order");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`flex items-center justify-end gap-2.5 py-2.5 border-t border-white/10 mt-2 transition-colors text-right ${
+                    activeLink === "track-order" ? "text-[#CCA681]" : "text-gray-300"
+                  }`}
+                  style={{
+                    fontFamily: activeLink === "track-order"
+                      ? navTypography.mobile.active.fontFamily
+                      : navTypography.mobile.inactive.fontFamily,
+                    fontWeight: activeLink === "track-order"
+                      ? navTypography.mobile.active.fontWeight
+                      : navTypography.mobile.inactive.fontWeight,
+                    fontSize: activeLink === "track-order"
+                      ? navTypography.mobile.active.fontSize
+                      : navTypography.mobile.inactive.fontSize,
+                  }}
+                >
+                  <Truck size={17} className="text-[#CCA681]" />
+                  <span>Track Order</span>
+                </motion.a>
               </div>
             </div>
           </motion.div>

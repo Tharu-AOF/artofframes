@@ -42,6 +42,8 @@ export interface GalleryTile {
   span: string;
 }
 
+const BATCH_SIZE = 18;
+
 const GalleryCollection = ({
   tiles,
   categories,
@@ -51,7 +53,9 @@ const GalleryCollection = ({
 }) => {
   const [active, setActive] = useState<number | null>(null);
   const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
+  const [displayLimit, setDisplayLimit] = useState(BATCH_SIZE);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // The selected category lives in the URL (?category=<slug>), so
   // gallery links deep-link straight into a filtered set, and every
@@ -95,6 +99,36 @@ const GalleryCollection = ({
   );
 
   const item = active === null ? null : visible[active];
+
+  // Reset batch limit when category changes
+  useEffect(() => {
+    setDisplayLimit(BATCH_SIZE);
+  }, [category]);
+
+  const displayedTiles = useMemo(
+    () => visible.slice(0, displayLimit),
+    [visible, displayLimit]
+  );
+  const hasMore = displayLimit < visible.length;
+
+  // Infinite scroll trigger via IntersectionObserver
+  useEffect(() => {
+    if (!hasMore) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setDisplayLimit((prev) => Math.min(prev + BATCH_SIZE, visible.length));
+        }
+      },
+      { rootMargin: "400px" }
+    );
+
+    const el = loadMoreRef.current;
+    if (el) observer.observe(el);
+    return () => {
+      if (el) observer.unobserve(el);
+    };
+  }, [hasMore, visible.length]);
 
   // Pick a category: filter the grid and jump back to the top of the
   // PHOTOS column (not the section top, which sits above the
@@ -318,24 +352,25 @@ const GalleryCollection = ({
                 </p>
               </div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3"
-              >
-                {visible.map((tile, i) => (
-                  <motion.button
-                    key={tile.id}
-                    type="button"
-                    onClick={() => setActive(i)}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.45, ease: "easeOut" }}
-                    aria-label={`Open ${tile.title}`}
-                    className="group relative mb-4 block w-full break-inside-avoid cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] text-left transition-all duration-300 hover:border-white/25"
-                  >
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3"
+                >
+                  {displayedTiles.map((tile, i) => (
+                    <motion.button
+                      key={tile.id}
+                      type="button"
+                      onClick={() => setActive(i)}
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-40px" }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                      aria-label={`Open ${tile.title}`}
+                      className="group relative mb-4 block w-full break-inside-avoid cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] text-left transition-all duration-300 hover:border-white/25"
+                    >
                     {/* Brand-tinted glow */}
                     <div
                       aria-hidden="true"
@@ -382,38 +417,62 @@ const GalleryCollection = ({
                 ))}
 
                 {/* CTA tile */}
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, ease: "easeOut" }}
-                  className="mb-4 break-inside-avoid"
-                >
-                  <Link
-                    href="/shop"
-                    className="group card-shimmer relative flex min-h-[240px] w-full flex-col justify-between overflow-hidden rounded-2xl border border-[#CCA681]/25 bg-linear-to-br from-[#5A1020]/60 via-[#5A1020]/25 to-transparent p-6 transition-all duration-300 hover:border-[#CCA681]/60 hover:shadow-[0_0_40px_rgba(90,16,32,0.4)]"
+                  <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                    className="mb-4 break-inside-avoid"
                   >
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-[#CCA681]">
-                      Explore
-                    </p>
-                    <div className="flex items-end justify-between gap-4">
-                      <p
-                        className="text-xl tracking-tight text-white sm:text-2xl"
-                        style={{ fontFamily: "var(--font-display)", fontWeight: 600 }}
-                      >
-                        See the Collection
+                    <Link
+                      href="/shop"
+                      className="group card-shimmer relative flex min-h-[240px] w-full flex-col justify-between overflow-hidden rounded-2xl border border-[#CCA681]/25 bg-linear-to-br from-[#5A1020]/60 via-[#5A1020]/25 to-transparent p-6 transition-all duration-300 hover:border-[#CCA681]/60 hover:shadow-[0_0_40px_rgba(90,16,32,0.4)]"
+                    >
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-[#CCA681]">
+                        Explore
                       </p>
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-all duration-300 group-hover:border-[#CCA681] group-hover:bg-[#CCA681] group-hover:text-[#5A1020]">
-                        <ArrowUpRight
-                          size={20}
-                          strokeWidth={2.2}
-                          className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                        />
-                      </span>
-                    </div>
-                  </Link>
+                      <div className="flex items-end justify-between gap-4">
+                        <p
+                          className="text-xl tracking-tight text-white sm:text-2xl"
+                          style={{ fontFamily: "var(--font-display)", fontWeight: 600 }}
+                        >
+                          See the Collection
+                        </p>
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-all duration-300 group-hover:border-[#CCA681] group-hover:bg-[#CCA681] group-hover:text-[#5A1020]">
+                          <ArrowUpRight
+                            size={20}
+                            strokeWidth={2.2}
+                            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          />
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+
+                {/* Load More & Infinite Scroll Trigger */}
+                {hasMore && (
+                  <div
+                    ref={loadMoreRef}
+                    className="mt-8 flex flex-col items-center justify-center gap-3 pt-4"
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDisplayLimit((prev) =>
+                          Math.min(prev + BATCH_SIZE, visible.length)
+                        )
+                      }
+                      className="btn-shine inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:border-[#CCA681] hover:bg-[#CCA681]/10 hover:text-[#CCA681]"
+                    >
+                      <span>Load More Photos</span>
+                      <span className="text-gray-400 font-normal">
+                        ({displayedTiles.length} of {visible.length})
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

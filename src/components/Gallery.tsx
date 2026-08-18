@@ -88,19 +88,19 @@ const Gallery = ({ tiles }: { tiles: GalleryTile[] }) => {
       {/* ── Ambient orbs — parallax drift ── */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-[#5A1020]/10 blur-[160px]"
+        className="pointer-events-none absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-[#5A1020]/10 blur-[160px] gpu-layer"
         style={{ y: reduceMotion ? 0 : orbTopY }}
       />
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-1/4 h-[400px] w-[400px] rounded-full bg-[#0E8C7B]/5 blur-[140px]"
+        className="pointer-events-none absolute bottom-0 right-1/4 h-[400px] w-[400px] rounded-full bg-[#0E8C7B]/5 blur-[140px] gpu-layer"
         style={{ y: reduceMotion ? 0 : orbBottomY }}
       />
 
       {/* Dot grid overlay — slow upward drift */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.25]"
+        className="pointer-events-none absolute inset-0 opacity-[0.25] gpu-layer"
         style={{ y: reduceMotion ? 0 : gridY }}
       >
         <div

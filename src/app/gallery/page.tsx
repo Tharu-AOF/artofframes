@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     "A glimpse of the studio's work — laser-cut love gifts, mommy & me keepsakes, and statement wall art, made and finished by hand.",
 };
 
-// Fetched live so admin gallery edits appear immediately.
-export const dynamic = "force-dynamic";
+// Cached at the CDN edge and revalidated every 60s for blazing fast load times.
+export const revalidate = 60;
 
 export default async function GalleryPage() {
   let tiles: GalleryTile[];

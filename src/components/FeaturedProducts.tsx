@@ -122,19 +122,19 @@ const FeaturedProducts = ({ products }: { products: FeaturedProduct[] }) => {
       {/* ── Ambient orbs — parallax drift ── */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/4 h-[480px] w-[480px] rounded-full bg-[#5A1020]/10 blur-[160px]"
+        className="pointer-events-none absolute top-0 left-1/4 h-[480px] w-[480px] rounded-full bg-[#5A1020]/10 blur-[160px] gpu-layer"
         style={{ y: reduceMotion ? 0 : orbTopY }}
       />
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-1/4 h-[420px] w-[420px] rounded-full bg-[#0E8C7B]/5 blur-[150px]"
+        className="pointer-events-none absolute bottom-0 right-1/4 h-[420px] w-[420px] rounded-full bg-[#0E8C7B]/5 blur-[150px] gpu-layer"
         style={{ y: reduceMotion ? 0 : orbBottomY }}
       />
 
       {/* Dot grid overlay — slow upward drift (matches Services) */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.25]"
+        className="pointer-events-none absolute inset-0 opacity-[0.25] gpu-layer"
         style={{ y: reduceMotion ? 0 : gridY }}
       >
         <div
