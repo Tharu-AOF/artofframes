@@ -13,9 +13,20 @@ import {
 } from "@/components/shop/data";
 
 export const metadata: Metadata = {
-  title: "Our Gallery — Art of Frames",
+  title: "Handcrafted Woodcraft & Framing Gallery — Art of Frames",
   description:
-    "A glimpse of the studio's work — laser-cut love gifts, mommy & me keepsakes, and statement wall art, made and finished by hand.",
+    "Explore our handcrafted collection of bespoke wooden photo frames, laser-cut wall decor, silhouette art, and personalized keepsake gifts in Sri Lanka.",
+  alternates: {
+    canonical: "/gallery",
+  },
+  openGraph: {
+    title: "Handcrafted Woodcraft & Framing Gallery — Art of Frames",
+    description:
+      "Explore handcrafted photo frames, wooden wall art & personalized keepsake gifts made by Art of Frames.",
+    url: "/gallery",
+    siteName: "Art of Frames",
+    type: "website",
+  },
 };
 
 // Cached at the CDN edge and revalidated every 60s for blazing fast load times.

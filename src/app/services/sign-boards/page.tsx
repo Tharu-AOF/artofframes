@@ -6,9 +6,20 @@ import { getShopSignboardSettings } from "@/lib/shop-db";
 import { DEFAULT_SIGNBOARD_SETTINGS, type SignboardSettings } from "@/lib/settings";
 
 export const metadata: Metadata = {
-  title: "Custom Sign Boards — Art of Frames",
+  title: "Custom Sign Boards Sri Lanka — Art of Frames",
   description:
-    "Custom sign boards made to order — laser-cut layers, precision finishing and a live price calculator. Estimate your sign board price in seconds.",
+    "Custom wooden & acrylic sign boards made to order in Sri Lanka. Precision laser-cut lettering, multi-layer 3D finish, and live instant price estimator.",
+  alternates: {
+    canonical: "/services/sign-boards",
+  },
+  openGraph: {
+    title: "Custom Sign Boards Sri Lanka — Art of Frames",
+    description:
+      "Custom laser-cut sign boards for businesses, homes, and events in Sri Lanka. Calculate live prices instantly.",
+    url: "/services/sign-boards",
+    siteName: "Art of Frames",
+    type: "website",
+  },
 };
 
 // Re-render on every request so admin pricing (materials, rates,

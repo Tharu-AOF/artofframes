@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   title: "Your Cart — Art of Frames",
   description:
     "Review your selected pieces before ordering — quantities, options and total, with checkout over WhatsApp.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 // Fetched live so the cart always prices against current products,

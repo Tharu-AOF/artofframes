@@ -6,7 +6,18 @@ import TrackOrderView from "@/components/track/TrackOrderView";
 export const metadata: Metadata = {
   title: "Track Your Order — Art of Frames",
   description:
-    "Enter your Royal Express waybill number to see the live status and delivery journey of your Art of Frames order.",
+    "Track the live delivery journey of your Art of Frames handcrafted photo frames and personalized gifts in Sri Lanka with your Royal Express waybill number.",
+  alternates: {
+    canonical: "/track-order",
+  },
+  openGraph: {
+    title: "Track Your Order — Art of Frames",
+    description:
+      "Enter your waybill number to see real-time delivery status for your Art of Frames order.",
+    url: "/track-order",
+    siteName: "Art of Frames",
+    type: "website",
+  },
 };
 
 export default function TrackOrderPage() {
